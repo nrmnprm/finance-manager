@@ -54,6 +54,16 @@
   background: var(--expense);
 }
 
+.dotPendingIncome {
+  background: var(--income);
+  opacity: 0.4;
+}
+
+.dotPendingExpense {
+  background: var(--expense);
+  opacity: 0.4;
+}
+
 .balance {
   font-size: 10px;
   color: var(--text-secondary);

@@ -1,0 +1,260 @@
+.screen {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 16px 100px;
+}
+
+.balanceSection {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.balanceBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+.balanceBtn:active {
+  background: var(--surface-raised);
+}
+
+.balanceAmount {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.balanceNegative {
+  color: var(--expense);
+}
+
+.editIcon {
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.balanceEdit {
+  margin-bottom: 8px;
+}
+
+.balanceInput {
+  background: var(--surface-raised);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  width: 100%;
+  max-width: 280px;
+}
+
+.allowance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.allowanceLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.allowanceValue {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.allowanceNegative {
+  color: var(--expense);
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+
+.pendingList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pendingCard {
+  background: var(--pending);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.pendingInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.pendingLabel {
+  font-size: 14px;
+  font-weight: 500;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pendingDate {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.pendingAmount {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.confirmBtn {
+  padding: 7px 14px;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.confirmRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.confirmInput {
+  flex: 1;
+  padding: 6px 10px;
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.confirmOkBtn {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmCancelBtn {
+  width: 36px;
+  height: 36px;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eventList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.eventRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+
+.eventRowPending {
+  background: var(--pending);
+  opacity: 0.85;
+}
+
+.eventDate {
+  font-size: 12px;
+  color: var(--text-secondary);
+  min-width: 36px;
+  flex-shrink: 0;
+}
+
+.eventLabel {
+  flex: 1;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eventAmount {
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.amountIncome {
+  color: var(--income);
+}
+
+.amountExpense {
+  color: var(--expense);
+}
+
+.empty {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 12px 4px;
+}
+
+.fab {
+  position: fixed;
+  bottom: calc(56px + env(safe-area-inset-bottom) + 16px);
+  right: max(16px, calc(50vw - 240px + 16px));
+  width: 52px;
+  height: 52px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+
+.fab:active {
+  opacity: 0.85;
+  transform: scale(0.95);
+}

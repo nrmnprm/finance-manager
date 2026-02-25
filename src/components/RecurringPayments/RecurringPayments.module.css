@@ -1,0 +1,311 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empty {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 16px 0;
+  text-align: center;
+}
+
+.item {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemLabel {
+  font-size: 15px;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.itemMeta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.freqBadge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  background: var(--surface-raised);
+  color: var(--text-secondary);
+}
+
+.cat_income { color: var(--income); }
+.cat_expense { color: var(--expense); }
+.cat_credit { color: var(--credit); }
+.cat_savings { color: var(--savings); }
+
+.nextDate {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.amount {
+  font-size: 17px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.income { color: var(--income); }
+.expense { color: var(--expense); }
+
+.itemActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editBtn {
+  flex: 1;
+  padding: 8px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.deleteBtn {
+  flex: 1;
+  padding: 8px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.deleteConfirm {
+  color: var(--expense);
+  font-weight: 600;
+}
+
+.addBtn {
+  width: 100%;
+  padding: 14px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+  text-align: center;
+  margin-top: 4px;
+}
+
+.addBtn:active {
+  background: var(--surface-raised);
+}
+
+/* Form */
+.formOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.formSheet {
+  background: var(--surface);
+  border-radius: var(--radius) var(--radius) 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px;
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.formTitle {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.typeToggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.typeBtn {
+  flex: 1;
+  padding: 10px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.typeBtnExpense {
+  background: var(--expense);
+  color: #fff;
+}
+
+.typeBtnIncome {
+  background: var(--income);
+  color: var(--bg);
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.freqToggle {
+  display: flex;
+  gap: 6px;
+}
+
+.freqBtn {
+  flex: 1;
+  padding: 9px 6px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.freqBtnActive {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.catToggle {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.catBtn {
+  flex: 1;
+  min-width: 70px;
+  padding: 8px 6px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.catBtnActive {
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid currentColor;
+}
+
+.flexRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.flexLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.flexDateField {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flexDateLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.flexDateInput {
+  width: 56px;
+  text-align: center;
+}
+
+.formBtns {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 13px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.saveBtn {
+  flex: 2;
+  padding: 13px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+}

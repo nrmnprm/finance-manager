@@ -1,25 +1,19 @@
 import { useState, useMemo, useRef } from "react";
-import type { FinanceEvent } from "../../types";
+import type { FinanceData } from "../../types";
 import { getMonthDays, getFirstWeekday, formatDate, isToday, getMonthName } from "../../utils/date";
-import { getBalanceForDay } from "../../utils/calculations";
+import { getAllEventsForRange, getBalanceForDayFromData } from "../../utils/calculations";
 import { CalendarDay } from "./CalendarDay";
 import styles from "./Calendar.module.css";
 
 interface CalendarProps {
-  events: FinanceEvent[];
-  currentBalance: number;
+  data: FinanceData;
   selectedDay: string | null;
   onDayClick: (date: string) => void;
 }
 
 const WEEKDAYS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
-export function Calendar({
-  events,
-  currentBalance,
-  selectedDay,
-  onDayClick,
-}: CalendarProps) {
+export function Calendar({ data, selectedDay, onDayClick }: CalendarProps) {
   const [viewDate, setViewDate] = useState(() => new Date());
   const touchStartX = useRef(0);
 
@@ -29,7 +23,6 @@ export function Calendar({
   const days = useMemo(() => getMonthDays(year, month), [year, month]);
   const firstWeekday = useMemo(() => getFirstWeekday(year, month), [year, month]);
 
-  // Previous month fill days
   const prevMonthDays = useMemo(() => {
     if (firstWeekday === 0) return [];
     const prevMonth = month === 0 ? 11 : month - 1;
@@ -38,7 +31,6 @@ export function Calendar({
     return allPrevDays.slice(-firstWeekday);
   }, [year, month, firstWeekday]);
 
-  // Next month fill days
   const nextMonthDays = useMemo(() => {
     const totalCells = prevMonthDays.length + days.length;
     const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
@@ -47,31 +39,39 @@ export function Calendar({
     return getMonthDays(nextYear, nextMonth).slice(0, remaining);
   }, [year, month, prevMonthDays.length, days.length]);
 
+  const monthStr = String(month + 1).padStart(2, "0");
+  const yearStr = String(year);
+  const lastDayNum = new Date(year, month + 1, 0).getDate();
+  const rangeStart = `${yearStr}-${monthStr}-01`;
+  const rangeEnd = `${yearStr}-${monthStr}-${String(lastDayNum).padStart(2, "0")}`;
+
+  const monthEvents = useMemo(
+    () => getAllEventsForRange(data, rangeStart, rangeEnd),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data, rangeStart, rangeEnd]
+  );
+
   const balances = useMemo(() => {
     const map: Record<string, number> = {};
     for (const d of days) {
       const key = formatDate(d);
-      map[key] = getBalanceForDay(currentBalance, events, key);
+      map[key] = getBalanceForDayFromData(data, key);
     }
     return map;
-  }, [days, currentBalance, events]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [days, data]);
 
   const eventsByDay = useMemo(() => {
-    const map: Record<string, FinanceEvent[]> = {};
-    for (const e of events) {
+    const map: Record<string, typeof monthEvents> = {};
+    for (const e of monthEvents) {
       if (!map[e.date]) map[e.date] = [];
       map[e.date].push(e);
     }
     return map;
-  }, [events]);
+  }, [monthEvents]);
 
-  const goToPrev = () => {
-    setViewDate(new Date(year, month - 1, 1));
-  };
-
-  const goToNext = () => {
-    setViewDate(new Date(year, month + 1, 1));
-  };
+  const goToPrev = () => setViewDate(new Date(year, month - 1, 1));
+  const goToNext = () => setViewDate(new Date(year, month + 1, 1));
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;

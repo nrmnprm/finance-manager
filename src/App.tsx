@@ -1,96 +1,92 @@
 import { useState } from "react";
 import { useFinanceData } from "./hooks/useFinanceData";
+import type { FinanceEvent } from "./types";
 import { formatDate } from "./utils/date";
-import { getBalanceForDay, getDailyAllowance } from "./utils/calculations";
-import { Header } from "./components/Header/Header";
-import { Calendar } from "./components/Calendar/Calendar";
-import { DayDetail } from "./components/DayDetail/DayDetail";
-import { EventForm } from "./components/EventForm/EventForm";
+import { TabBar, type TabName } from "./components/TabBar/TabBar";
+import { Today } from "./components/Today/Today";
+import { CalendarScreen } from "./components/CalendarScreen/CalendarScreen";
+import { ObligationsScreen } from "./components/ObligationsScreen/ObligationsScreen";
 import { Settings } from "./components/Settings/Settings";
+import { EventForm } from "./components/EventForm/EventForm";
 import styles from "./App.module.css";
 
 function App() {
   const finance = useFinanceData();
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<TabName>("today");
   const [showEventForm, setShowEventForm] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
+  const [eventFormDate, setEventFormDate] = useState<string>(() => formatDate(new Date()));
 
-  const today = new Date();
-  const todayStr = formatDate(today);
-  const dailyAllowance = getDailyAllowance(
-    finance.currentBalance,
-    finance.events,
-    today
-  );
-
-  const handleDayClick = (date: string) => {
-    setSelectedDay(date);
+  const handleConfirmVirtualEvent = (recurringId: string, date: string, amount: number) => {
+    finance.addConfirmation({
+      recurringId,
+      date,
+      actualAmount: amount,
+      confirmed: true,
+    });
   };
 
-  const handleCloseDayDetail = () => {
-    setSelectedDay(null);
-  };
-
-  const handleAddEventClick = () => {
-    setShowEventForm(true);
-  };
-
-  const handleSaveEvent = (event: Parameters<typeof finance.addEvent>[0]) => {
+  const handleAddEvent = (event: Omit<FinanceEvent, "id">) => {
     finance.addEvent(event);
     setShowEventForm(false);
   };
 
-  const selectedDayBalance = selectedDay
-    ? getBalanceForDay(finance.currentBalance, finance.events, selectedDay)
-    : 0;
-
-  const selectedDayEvents = selectedDay
-    ? finance.events.filter((e) => e.date === selectedDay)
-    : [];
-
-  const selectedDayAllowance = selectedDay === todayStr ? dailyAllowance : null;
+  const openEventForm = (date?: string) => {
+    setEventFormDate(date ?? formatDate(new Date()));
+    setShowEventForm(true);
+  };
 
   return (
     <div className={styles.app}>
-      <Header
-        currentBalance={finance.currentBalance}
-        dailyAllowance={dailyAllowance}
-        onBalanceChange={finance.setBalance}
-        onSettingsClick={() => setShowSettings(true)}
-      />
-      <Calendar
-        events={finance.events}
-        currentBalance={finance.currentBalance}
-        selectedDay={selectedDay}
-        onDayClick={handleDayClick}
-      />
+      <div className={styles.screen}>
+        {activeTab === "today" && (
+          <Today
+            data={finance.data}
+            onBalanceChange={finance.setBalance}
+            onAddEvent={() => openEventForm()}
+            onConfirmVirtualEvent={handleConfirmVirtualEvent}
+          />
+        )}
+        {activeTab === "calendar" && (
+          <CalendarScreen
+            data={finance.data}
+            onAddEvent={handleAddEvent}
+            onDeleteEvent={finance.deleteEvent}
+            onConfirmVirtualEvent={handleConfirmVirtualEvent}
+          />
+        )}
+        {activeTab === "obligations" && (
+          <ObligationsScreen
+            data={finance.data}
+            onAddRecurringPayment={finance.addRecurringPayment}
+            onUpdateRecurringPayment={finance.updateRecurringPayment}
+            onDeleteRecurringPayment={finance.deleteRecurringPayment}
+            onAddCredit={finance.addCredit}
+            onUpdateCredit={finance.updateCredit}
+            onDeleteCredit={finance.deleteCredit}
+            onAddSavingsAccount={finance.addSavingsAccount}
+            onUpdateSavingsAccount={finance.updateSavingsAccount}
+            onDeleteSavingsAccount={finance.deleteSavingsAccount}
+          />
+        )}
+        {activeTab === "settings" && (
+          <Settings
+            data={finance.data}
+            onImport={finance.importData}
+            onReset={finance.resetData}
+            onAddDistributionRule={finance.addDistributionRule}
+            onUpdateDistributionRule={finance.updateDistributionRule}
+            onDeleteDistributionRule={finance.deleteDistributionRule}
+          />
+        )}
+      </div>
 
-      {selectedDay && (
-        <DayDetail
-          date={selectedDay}
-          events={selectedDayEvents}
-          balance={selectedDayBalance}
-          dailyAllowance={selectedDayAllowance}
-          onAddEvent={handleAddEventClick}
-          onDeleteEvent={finance.deleteEvent}
-          onClose={handleCloseDayDetail}
-        />
-      )}
+      <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {showEventForm && selectedDay && (
+      {showEventForm && (
         <EventForm
-          date={selectedDay}
-          onSave={handleSaveEvent}
+          date={eventFormDate}
+          onSave={handleAddEvent}
           onCancel={() => setShowEventForm(false)}
-        />
-      )}
-
-      {showSettings && (
-        <Settings
-          data={finance.data}
-          onImport={finance.importData}
-          onReset={finance.resetData}
-          onClose={() => setShowSettings(false)}
         />
       )}
     </div>

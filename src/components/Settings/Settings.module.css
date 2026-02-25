@@ -1,43 +1,26 @@
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 40;
-  display: flex;
-  justify-content: center;
+.screen {
+  flex: 1;
   overflow-y: auto;
-}
-
-.content {
-  width: 100%;
-  max-width: 480px;
-  padding: 20px;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 32px;
+  padding: 20px 16px 80px;
 }
 
 .title {
   font-size: 20px;
   font-weight: 600;
+  margin-bottom: 24px;
 }
 
-.closeBtn {
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.section {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text-secondary);
-  border-radius: var(--radius-sm);
-}
-
-.closeBtn:active {
-  background: var(--surface-raised);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
 }
 
 .actions {
@@ -71,7 +54,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 50;
+  z-index: 60;
   display: flex;
   align-items: center;
   justify-content: center;

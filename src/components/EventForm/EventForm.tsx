@@ -27,6 +27,7 @@ export function EventForm({ date, onSave, onCancel }: EventFormProps) {
       amount: parsed,
       label: label.trim(),
       date: eventDate,
+      confirmed: true,
     });
   };
 

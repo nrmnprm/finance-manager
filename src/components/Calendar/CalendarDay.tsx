@@ -20,8 +20,10 @@ export function CalendarDay({
   isCurrentMonth,
   onClick,
 }: CalendarDayProps) {
-  const hasIncome = events.some((e) => e.type === "income");
-  const hasExpense = events.some((e) => e.type === "expense");
+  const hasIncome = events.some((e) => e.type === "income" && e.confirmed);
+  const hasExpense = events.some((e) => e.type === "expense" && e.confirmed);
+  const hasPendingIncome = events.some((e) => e.type === "income" && !e.confirmed);
+  const hasPendingExpense = events.some((e) => e.type === "expense" && !e.confirmed);
 
   const classNames = [
     styles.day,
@@ -43,14 +45,12 @@ export function CalendarDay({
       <span className={styles.dayNumber}>{date.getDate()}</span>
       <div className={styles.dots}>
         {hasIncome && <span className={`${styles.dot} ${styles.dotIncome}`} />}
-        {hasExpense && (
-          <span className={`${styles.dot} ${styles.dotExpense}`} />
-        )}
+        {hasExpense && <span className={`${styles.dot} ${styles.dotExpense}`} />}
+        {hasPendingIncome && <span className={`${styles.dot} ${styles.dotPendingIncome}`} />}
+        {hasPendingExpense && <span className={`${styles.dot} ${styles.dotPendingExpense}`} />}
       </div>
       {isCurrentMonth && (
-        <span
-          className={`${styles.balance} ${balance < 0 ? styles.negative : ""}`}
-        >
+        <span className={`${styles.balance} ${balance < 0 ? styles.negative : ""}`}>
           {formatBalance(balance)}
         </span>
       )}

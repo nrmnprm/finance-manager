@@ -1,0 +1,206 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.empty {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 16px 0;
+  text-align: center;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cardLabel {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cardAmounts {
+  text-align: right;
+}
+
+.balanceAmount {
+  font-size: 16px;
+  font-weight: 600;
+  display: block;
+}
+
+.goalAmount {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.progressBar {
+  height: 5px;
+  background: var(--surface-raised);
+  border-radius: 3px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.rate {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.rate strong {
+  color: var(--savings);
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editBtn {
+  flex: 1;
+  padding: 8px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.deleteBtn {
+  flex: 1;
+  padding: 8px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.deleteConfirm {
+  color: var(--expense);
+  font-weight: 600;
+}
+
+.addBtn {
+  width: 100%;
+  padding: 14px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--accent);
+  text-align: center;
+}
+
+.addBtn:active {
+  background: var(--surface-raised);
+}
+
+/* Form */
+.formOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 60;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.formSheet {
+  background: var(--surface);
+  border-radius: var(--radius) var(--radius) 0 0;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 20px;
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.formTitle {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.formBtns {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 13px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.saveBtn {
+  flex: 2;
+  padding: 13px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+}
