@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { FinanceData, DistributionRule } from "../../types";
 import { formatDate } from "../../utils/date";
 import { DistributionRulesEditor } from "../DistributionRules/DistributionRulesEditor";
@@ -8,6 +8,7 @@ interface SettingsProps {
   data: FinanceData;
   onImport: (data: FinanceData) => void;
   onReset: () => void;
+  onSetDailyBudget: (budget: number) => void;
   onAddDistributionRule: (rule: Omit<DistributionRule, "id">) => void;
   onUpdateDistributionRule: (id: string, updates: Partial<DistributionRule>) => void;
   onDeleteDistributionRule: (id: string) => void;
@@ -42,6 +43,7 @@ export function Settings({
   data,
   onImport,
   onReset,
+  onSetDailyBudget,
   onAddDistributionRule,
   onUpdateDistributionRule,
   onDeleteDistributionRule,
@@ -50,6 +52,25 @@ export function Settings({
   const [confirmImport, setConfirmImport] = useState<FinanceData | null>(null);
   const [message, setMessage] = useState<{ text: string; isError: boolean } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  const [dailyBudgetInput, setDailyBudgetInput] = useState(() =>
+    data.dailyBudget > 0 ? String(data.dailyBudget) : ""
+  );
+
+  // Sync if data changes externally (import / reset)
+  useEffect(() => {
+    setDailyBudgetInput(data.dailyBudget > 0 ? String(data.dailyBudget) : "");
+  }, [data.dailyBudget]);
+
+  const saveDailyBudget = () => {
+    const v = parseFloat(dailyBudgetInput);
+    if (dailyBudgetInput.trim() === "" || isNaN(v) || v <= 0) {
+      onSetDailyBudget(0);
+      setDailyBudgetInput("");
+    } else {
+      onSetDailyBudget(Math.round(v));
+    }
+  };
 
   const handleExport = () => {
     const json = JSON.stringify(data, null, 2);
@@ -100,6 +121,31 @@ export function Settings({
   return (
     <div className={styles.screen}>
       <div className={styles.title}>Настройки</div>
+
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>Ежедневный бюджет</div>
+        <div className={styles.budgetRow}>
+          <input
+            className={styles.budgetInput}
+            type="number"
+            inputMode="decimal"
+            placeholder="Авто (рассчитывается)"
+            value={dailyBudgetInput}
+            onChange={(e) => setDailyBudgetInput(e.target.value)}
+            onBlur={saveDailyBudget}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                saveDailyBudget();
+                (e.target as HTMLInputElement).blur();
+              }
+            }}
+          />
+          <span className={styles.budgetUnit}>₽/день</span>
+        </div>
+        <div className={styles.budgetHint}>
+          Если задан — используется вместо автоматического расчёта
+        </div>
+      </div>
 
       <div className={styles.section}>
         <div className={styles.sectionTitle}>Распределение дохода</div>

@@ -90,7 +90,8 @@ export function getDailyAllowanceForDayFromData(
     ...data.events.filter((e) => e.date < rangeStart),
     ...events,
   ];
-  return getDailyAllowanceForDay(data.currentBalance, allBeforeAndInMonth, day);
+  const result = getDailyAllowanceForDay(data.currentBalance, allBeforeAndInMonth, day);
+  return isFinite(result) ? result : 0;
 }
 
 export function getBalanceForDayFromData(data: FinanceData, day: string): number {

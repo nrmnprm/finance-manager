@@ -20,7 +20,10 @@ export function Today({ data, onBalanceChange, onAddEvent, onConfirmVirtualEvent
   const [confirmingPayment, setConfirmingPayment] = useState<{ recurringId: string; date: string; amount: string } | null>(null);
 
   const currentBalance = getBalanceForDayFromData(data, todayStr);
-  const dailyAllowance = getDailyAllowanceForDayFromData(data, todayStr);
+  const dailyAllowance = data.dailyBudget > 0
+    ? data.dailyBudget
+    : getDailyAllowanceForDayFromData(data, todayStr);
+  const isFixedBudget = data.dailyBudget > 0;
 
   const formatNumber = (n: number) =>
     n.toLocaleString("ru-RU", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
@@ -116,7 +119,9 @@ export function Today({ data, onBalanceChange, onAddEvent, onConfirmVirtualEvent
           </button>
         )}
         <div className={styles.allowance}>
-          <span className={styles.allowanceLabel}>Можно тратить сегодня</span>
+          <span className={styles.allowanceLabel}>
+            {isFixedBudget ? "Бюджет на день" : "Можно тратить сегодня"}
+          </span>
           <span className={`${styles.allowanceValue} ${dailyAllowance < 0 ? styles.allowanceNegative : ""}`}>
             {formatNumber(Math.round(dailyAllowance))} ₽/день
           </span>

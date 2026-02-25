@@ -4,6 +4,7 @@ const STORAGE_KEY = "finance-data";
 
 const DEFAULT_DATA: FinanceData = {
   currentBalance: 0,
+  dailyBudget: 0,
   events: [],
   recurringPayments: [],
   credits: [],
@@ -22,6 +23,7 @@ function migrateData(raw: Record<string, unknown>): FinanceData {
 
   return {
     currentBalance: typeof raw.currentBalance === "number" ? raw.currentBalance : 0,
+    dailyBudget: typeof raw.dailyBudget === "number" ? raw.dailyBudget : 0,
     events,
     recurringPayments: Array.isArray(raw.recurringPayments) ? raw.recurringPayments : [],
     credits: Array.isArray(raw.credits) ? raw.credits : [],

@@ -1,7 +1,7 @@
 import { useState, useMemo, useRef } from "react";
 import type { FinanceData } from "../../types";
 import { getMonthDays, getFirstWeekday, formatDate, isToday, getMonthName } from "../../utils/date";
-import { getAllEventsForRange, getBalanceForDayFromData } from "../../utils/calculations";
+import { getAllEventsForRange, getBalanceForDayFromData, getDailyAllowanceForDayFromData } from "../../utils/calculations";
 import { CalendarDay } from "./CalendarDay";
 import styles from "./Calendar.module.css";
 
@@ -51,11 +51,27 @@ export function Calendar({ data, selectedDay, onDayClick }: CalendarProps) {
     [data, rangeStart, rangeEnd]
   );
 
-  const balances = useMemo(() => {
-    const map: Record<string, number> = {};
+  const dayData = useMemo(() => {
+    const todayStr = formatDate(new Date());
+    // Daily spending rate: fixed budget or today's calculated allowance
+    const dailyRate = data.dailyBudget > 0
+      ? data.dailyBudget
+      : getDailyAllowanceForDayFromData(data, todayStr);
+    const todayTime = new Date(todayStr + "T12:00:00").getTime();
+
+    const map: Record<string, { balance: number; allowance: number }> = {};
     for (const d of days) {
       const key = formatDate(d);
-      map[key] = getBalanceForDayFromData(data, key);
+      const baseBalance = getBalanceForDayFromData(data, key);
+      // How many days ahead of today is this cell? (0 for today/past)
+      const keyTime = new Date(key + "T12:00:00").getTime();
+      const daysAhead = Math.max(0, Math.round((keyTime - todayTime) / 86400000));
+      map[key] = {
+        balance: baseBalance - dailyRate * daysAhead,
+        allowance: data.dailyBudget > 0
+          ? data.dailyBudget
+          : getDailyAllowanceForDayFromData(data, key),
+      };
     }
     return map;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,7 +105,8 @@ export function Calendar({ data, selectedDay, onDayClick }: CalendarProps) {
       <CalendarDay
         key={key}
         date={date}
-        balance={isCurrent ? (balances[key] ?? 0) : 0}
+        balance={isCurrent ? (dayData[key]?.balance ?? 0) : 0}
+        allowance={isCurrent ? (dayData[key]?.allowance ?? 0) : 0}
         events={isCurrent ? (eventsByDay[key] ?? []) : []}
         isToday={isToday(date)}
         isSelected={selectedDay === key}

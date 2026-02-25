@@ -116,3 +116,41 @@
 .hidden {
   display: none;
 }
+
+.budgetRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 4px 14px 4px 4px;
+}
+
+.budgetInput {
+  flex: 1;
+  padding: 11px 14px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  min-width: 0;
+}
+
+.budgetInput:focus {
+  border-color: var(--accent);
+}
+
+.budgetUnit {
+  font-size: 14px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.budgetHint {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  line-height: 1.4;
+}

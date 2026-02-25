@@ -61,6 +61,7 @@ export interface Confirmation {
 
 export interface FinanceData {
   currentBalance: number;
+  dailyBudget: number; // 0 = not set, use calculated value
   events: FinanceEvent[];
   recurringPayments: RecurringPayment[];
   credits: Credit[];

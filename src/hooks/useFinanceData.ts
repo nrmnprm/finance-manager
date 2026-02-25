@@ -21,6 +21,10 @@ export function useFinanceData() {
     setData((prev) => ({ ...prev, currentBalance: balance }));
   }, []);
 
+  const setDailyBudget = useCallback((budget: number) => {
+    setData((prev) => ({ ...prev, dailyBudget: budget }));
+  }, []);
+
   // --- Events ---
   const addEvent = useCallback((event: Omit<FinanceEvent, "id">) => {
     const newEvent: FinanceEvent = { ...event, id: crypto.randomUUID() };
@@ -141,6 +145,7 @@ export function useFinanceData() {
   const resetData = useCallback(() => {
     setData({
       currentBalance: 0,
+      dailyBudget: 0,
       events: [],
       recurringPayments: [],
       credits: [],
@@ -152,6 +157,7 @@ export function useFinanceData() {
 
   return {
     currentBalance: data.currentBalance,
+    dailyBudget: data.dailyBudget,
     events: data.events,
     recurringPayments: data.recurringPayments,
     credits: data.credits,
@@ -160,6 +166,7 @@ export function useFinanceData() {
     confirmations: data.confirmations,
     data,
     setBalance,
+    setDailyBudget,
     addEvent,
     updateEvent,
     deleteEvent,

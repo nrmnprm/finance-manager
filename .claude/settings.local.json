@@ -12,7 +12,9 @@
       "Bash(npx tsc -b --noEmit)",
       "Bash(taskkill //PID 16820 //F)",
       "Bash(taskkill //PID 25184 //F)",
-      "Bash(where node.exe)"
+      "Bash(where node.exe)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(npx vite build)"
     ]
   }
 }

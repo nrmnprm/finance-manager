@@ -73,6 +73,7 @@ function App() {
             data={finance.data}
             onImport={finance.importData}
             onReset={finance.resetData}
+            onSetDailyBudget={finance.setDailyBudget}
             onAddDistributionRule={finance.addDistributionRule}
             onUpdateDistributionRule={finance.updateDistributionRule}
             onDeleteDistributionRule={finance.deleteDistributionRule}

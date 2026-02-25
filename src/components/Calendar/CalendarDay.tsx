@@ -4,6 +4,7 @@ import styles from "./CalendarDay.module.css";
 interface CalendarDayProps {
   date: Date;
   balance: number;
+  allowance: number;
   events: FinanceEvent[];
   isToday: boolean;
   isSelected: boolean;
@@ -14,6 +15,7 @@ interface CalendarDayProps {
 export function CalendarDay({
   date,
   balance,
+  allowance,
   events,
   isToday,
   isSelected,
@@ -34,10 +36,12 @@ export function CalendarDay({
     .filter(Boolean)
     .join(" ");
 
-  const formatBalance = (n: number) => {
-    if (Math.abs(n) >= 1000000) return `${(n / 1000000).toFixed(1)}M`;
-    if (Math.abs(n) >= 10000) return `${Math.round(n / 1000)}k`;
-    return n.toLocaleString("ru-RU", { maximumFractionDigits: 0 });
+  const fmt = (n: number) => {
+    if (!isFinite(n) || isNaN(n)) return "—";
+    const abs = Math.abs(n);
+    if (abs >= 1000000) return `${(n / 1000000).toFixed(1)}M`;
+    if (abs >= 10000) return `${Math.round(n / 1000)}k`;
+    return Math.round(n).toLocaleString("ru-RU");
   };
 
   return (
@@ -50,9 +54,14 @@ export function CalendarDay({
         {hasPendingExpense && <span className={`${styles.dot} ${styles.dotPendingExpense}`} />}
       </div>
       {isCurrentMonth && (
-        <span className={`${styles.balance} ${balance < 0 ? styles.negative : ""}`}>
-          {formatBalance(balance)}
-        </span>
+        <div className={styles.numbers}>
+          <span className={`${styles.allowance} ${allowance < 0 ? styles.negative : ""}`}>
+            {fmt(allowance)}
+          </span>
+          <span className={`${styles.balance} ${balance < 0 ? styles.negative : ""}`}>
+            {fmt(balance)}
+          </span>
+        </div>
       )}
     </div>
   );
