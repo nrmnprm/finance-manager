@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \":*)",
+      "Bash(npm run build)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm --version)",
+      "Bash(npx vite --version)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill //PID 20948 //F)",
+      "Bash(ls -la /c/Finance/finance-manager/node_modules/.bin/vite*)",
+      "Bash(npx tsc -b --noEmit)",
+      "Bash(taskkill //PID 16820 //F)",
+      "Bash(taskkill //PID 25184 //F)",
+      "Bash(where node.exe)"
+    ]
+  }
+}
